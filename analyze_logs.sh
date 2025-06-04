@@ -17,4 +17,7 @@ if [[ ! -f "$log_path" ]]; then
 	echo "Log file not found: $log_path"
 	exit 1
 fi
-
+# nawaf
+first=$(head -n 1 "$log_path" | awk '{print $1}')
+last=$(tail -n 1 "$log_path" | awk '{print $1}')
+echo "First Entry: $first" >> "$REPORT_FILE"
