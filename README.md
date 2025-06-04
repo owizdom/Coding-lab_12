@@ -126,9 +126,6 @@ case "$choice" in
 esac
 ```
 
-Each analysis task is encapsulated in its own function:
-`analyze_heart_rate`, `analyze_temperature`, and `analyze_water_usage`.
-
 ---
 
 ## `analyze_heart_rate`
