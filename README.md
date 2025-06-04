@@ -109,26 +109,20 @@ Enter choice (1-3):
 A `case` statement handles the user input. If an invalid number is entered, an error message is displayed and the script exits.
 
 ```bash
-case $input in
-    "1")
-        echo "You made the first choice!"
-        analyze_heart_rate
-        echo "Heart rate log file was successfully analyzed!"
-        ;;
-    "2")
-        echo "You made the second choice!"
-        analyze_temperature
-        echo "Temperature log file was successfully analyzed!"
-        ;;
-    "3")
-        echo "You made the third choice!"
-        analyze_water_usage
-        echo "Water usage log file was successfully analyzed!"
-        ;;
-    *)
-        echo "Invalid choice. Please choose 1, 2, or 3."
-        exit 1
-        ;;
+case "$choice" in
+  1)
+    file="heart_rate.log"
+    ;;
+  2)
+    file="temperature.log"
+    ;;
+  3)
+    file="water_usage.log"
+    ;;
+  *)
+    echo "Invalid choice"
+    exit 1
+    ;;
 esac
 ```
 
