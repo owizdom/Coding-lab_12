@@ -9,7 +9,21 @@ echo "2) Temperature (temperature.log)"
 echo "3) Water Usage (water_usage.log)"
 read -p "Enter choice (1-3): " choice
 
-#DIVIN ADD YOUR CODE UNDER THIS COMMENT
+case "$choice" in
+  1)
+    file="heart_rate.log"
+    ;;
+  2)
+    file="temperature.log"
+    ;;
+  3)
+    file="water_usage.log"
+    ;;
+  *)
+    echo "Invalid choice"
+    exit 1
+    ;;
+esac
 
 log_path="$LOG_DIR/$file"
 
@@ -21,3 +35,10 @@ fi
 first=$(head -n 1 "$log_path" | awk '{print $1}')
 last=$(tail -n 1 "$log_path" | awk '{print $1}')
 echo "First Entry: $first" >> "$REPORT_FILE"
+
+echo "Analyzing $file..."
+echo "Report Generated at: $(date)" >> "$REPORT_FILE"
+echo "Log File: $file" >> "$REPORT_FILE"
+awk '{print $2}' "$log_path" | sort | uniq -c | while read count device; do
+  echo "$device: $count entries" >> "$REPORT_FILE"
+done
