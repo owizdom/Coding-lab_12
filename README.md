@@ -1,96 +1,188 @@
-Hospital Data Monitoring & Archival System
-
-This project is a Linux shell-based log management and analysis system developed as part of the Introduction to Linux and IT Tools course assignment. It simulates the monitoring of hospital data (heart rate, temperature, water usage) using Python scripts and provides tools to archive and analyze logs using interactive shell scripts.
-
-How It Works:
-
-Simulators
-
-Start the simulators to generate real-time logs:
-
-python3 heart_rate_monitor.py start
-
-python3 temperature_recorder.py start
-
-python3 water_consumption.py start
-
-Logs are saved to:
-hospital_data/active_logs/heart_rate.log
 
 
-hospital_data/active_logs/temperature.log
+# 📦 Group12 Automated Log Management System
 
+This project is a Linux shell-based log management and analysis system developed as part of the Introduction to Linux and IT Tools course assignment. It simulates the monitoring of hospital data (heart rate, temperature, water usage) using Python scripts and provides tools to archive and analyze logs using interactive shell scripts.. It is designed to:
 
-hospital_data/active_logs/water_usage.log
+# Task 1: Interactive Archival Script (`archive_logs.sh`)
 
+* Prompt the user to select a log file to archive.
+* Move and rename the selected log file with a timestamp.
+* Create a new, empty version of the original log file.
+* Organize archived logs into categorized subdirectories.
 
-2. Archiving Logs (archive_logs.sh)
-Run the script:
-./archive_logs.sh
+---
 
-Prompts user to select a log to archive.
+## 🛠️ File Structure
 
+```
+hospital_data/
+├── active_logs/
+│   ├── heart_rate.log
+│   ├── temperature.log
+│   └── water_usage.log
+└── archived_logs/
+    ├── heart_data_archive/
+    ├── temperature_data_archive/
+    └── water_usage_data_archive/
+```
 
-Moves selected log to an archive folder with a timestamped filename.
+---
 
+## Features
 
-Creates a new empty log file for continued logging.
+* Interactive selection of which log to archive.
+* Timestamped archive file names (e.g., `heart_rate_log-20250605-143015.log`).
+* Original log file is replaced with a new, empty file (preserves file path for other systems).
+* Directory structure is created automatically if it doesn’t exist.
 
+---
 
-Includes error handling for invalid input or missing files.
+## How to Use
 
-3. Analyzing Logs (analyze_logs.sh)
-Run the script:
-./analyze_logs.sh
+1. Ensure the script is executable:
 
-Presents an interactive menu for log selection.
+   ```bash
+   chmod +x archive_logs.sh
+   ```
 
+2. Run the script:
 
-Counts log entries per device.
+   ```bash
+   ./archive_logs.sh
+   ```
 
+3. Follow the on-screen menu:
 
-Optionally logs first and last timestamps.
+   ```
+   Choose log file to archive:
+   1) heart_rate.log
+   2) temperature.log
+   3) water_usage.log
+   ```
 
+---
 
-Appends analysis to reports/analysis_report.txt
+## What Happens During Archiving?
 
+If you select `heart_rate.log`, the script will:
 
-Features
-Interactive CLI menus
+* Move `hospital_data/active_logs/heart_rate.log` to
+  `hospital_data/archived_logs/heart_data_archive/heart_rate-YYYYMMDD-HHMMSS.log`
 
+* Then, it creates a **new empty** `heart_rate.log` back in the `active_logs` directory.
 
-Timestamped log archival
+---
 
+## ✅ Example Output
 
-Input validation & error handling
+```text
+WELCOME TO GROUP12 AUTOMATED LOG MANAGEMENT SYSTEM
 
+Choose log file to archive:
+1) heart_rate.log
+2) temperature.log
+3) water_usage.log
+Enter the number of your choice [1-3]: 1
 
-CLI-based data analysis (awk, grep, sort, uniq)
+    Archiving 'heart_rate.log'...
 
+Successfully Archived 'heart_rate.log' to 'hospital_data/archived_logs/heart_data_archive/heart_rate-20250605-153000.log'
+```
 
-Organized structure for active, archived, and analyzed data
+---
 
+# Task 2: Intelligent Analysis Script (`analyze_logs.sh`)
 
-Requirements
+This script allows users to analyze log files related to heart rate, temperature, and water usage in an interactive and structured way.
 
-Python 3
+Upon running, the user is prompted with:
 
-Bash shell
+```bash
+Select log file to analyze:
+1) Heart Rate (heart_rate.log)
+2) Temperature (temperature.log)
+3) Water Usage (water_usage.log)
+Enter choice (1-3):
+```
 
-Core Linux utilities: awk, grep, sort, uniq, date, mv, touch
+A `case` statement handles the user input. If an invalid number is entered, an error message is displayed and the script exits.
 
- Group 12 Members
+```bash
+case $input in
+    "1")
+        echo "You made the first choice!"
+        analyze_heart_rate
+        echo "Heart rate log file was successfully analyzed!"
+        ;;
+    "2")
+        echo "You made the second choice!"
+        analyze_temperature
+        echo "Temperature log file was successfully analyzed!"
+        ;;
+    "3")
+        echo "You made the third choice!"
+        analyze_water_usage
+        echo "Water usage log file was successfully analyzed!"
+        ;;
+    *)
+        echo "Invalid choice. Please choose 1, 2, or 3."
+        exit 1
+        ;;
+esac
+```
 
-Okechukwu Wisdom Ikechukwu :  Team Lead in charge of coordinating and assigning tasks to team members as well as scripting the bash scripts.
+Each analysis task is encapsulated in its own function:
+`analyze_heart_rate`, `analyze_temperature`, and `analyze_water_usage`.
 
-Cyuzuzo Germain :  Assistant Team Lead in charge of debugging errors the team faced while doing the assignments.
+---
 
-Bonheur Divin MUNEZERO : Developer who was responsible for writing the Analyze and Archive scripts.
+## `analyze_heart_rate`
 
-Fabrice Mbarushimana : Developer who was responsible for writing the Analyze and Archive scripts.
+Checks if `heart_rate.log` exists. If not, exits and prompts user to fix the issue. If valid:
 
-Nawaf Awadallah Ahmed : Developer who was responsible for writing the Analyze and Archive scripts.
+1. Counts number of heart rate monitors.
+2. Shows frequency of each monitor.
+3. Logs the first and last timestamps.
+4. Appends results to `reports/analysis_report.txt`.
 
-Nsenga Willy :  The Technical Writer who was responsible for writing and explaining how the application works.
+---
 
-Alexis-Gerald Olunna Okwa : This team member was absent after several attempts to reach out via canvas and emails.
+## `analyze_temperature`
+
+Validates existence of `temperature.log`. Then:
+
+1. Counts temperature monitors.
+2. Shows usage frequency.
+3. Finds first and last timestamp.
+4. Appends results to the report.
+
+---
+
+## `analyze_water_usage`
+
+Performs similar actions on `water_usage.log`:
+
+* Checks file presence.
+* Identifies unique devices.
+* Counts occurrences per device.
+* Logs timestamps of first and last use.
+* Appends results to the report file.
+
+This helps monitor water consumption patterns and detect anomalies.
+
+---
+
+## 👥 This Project was developed by these active Group 12 Contributors:
+
+| Name                           | Role Description                                         |
+| ------------------------------ | -------------------------------------------------------- |
+| **Okechukwu Wisdom Ikechukwu** | Team Lead – Coordinated the team and scripted bash logic |
+| **Cyuzuzo Germain**            | Assistant Team Lead – Debugging and support              |
+| **Bonheur Divin MUNEZERO**     | Developer – Wrote Analyze and Archive scripts            |
+| **Fabrice Mbarushimana**       | Developer – Wrote Analyze and Archive scripts            |
+| **Nawaf Awadallah Ahmed**      | Developer – Wrote Analyze and Archive scripts            |
+| **Nsenga Willy**               | Technical Writer – Documented and explained the system   |
+| **Alexis-Gerald Olunna Okwa**  | Inactive – Absent after multiple contact attempts        |
+
+---
