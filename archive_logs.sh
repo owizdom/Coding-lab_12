@@ -9,6 +9,17 @@ echo "2) Temperature"
 echo "3) Water Usage"
 read -p "Enter choice (1-3): " choice
 
+file="water_usage.log"
+    archive_dir="$ARCHIVE_BASE/water_data_archive"
+    ;;
+  *)
+    echo "Invalid choice"
+    exit 1
+    ;;
+esac
+src="$LOG_DIR/$file"
+archive_name="${file%.*}_$timestamp.log"
+
 #Germain
 
 if [[ ! -f "$src" ]]; then
