@@ -1,6 +1,6 @@
 
 
-# 📦 Group12 Automated Log Management System
+# Group12 Automated Log Management System
 
 This project is a Linux shell-based log management and analysis system developed as part of the Introduction to Linux and IT Tools course assignment. It simulates the monitoring of hospital data (heart rate, temperature, water usage) using Python scripts and provides tools to archive and analyze logs using interactive shell scripts.. It is designed to:
 
