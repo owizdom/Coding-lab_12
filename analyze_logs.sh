@@ -9,4 +9,12 @@ echo "2) Temperature (temperature.log)"
 echo "3) Water Usage (water_usage.log)"
 read -p "Enter choice (1-3): " choice
 
+#DIVIN ADD YOUR CODE UNDER THIS COMMENT
+
+log_path="$LOG_DIR/$file"
+
+if [[ ! -f "$log_path" ]]; then
+	echo "Log file not found: $log_path"
+	exit 1
+fi
 
