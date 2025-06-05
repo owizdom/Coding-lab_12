@@ -24,4 +24,6 @@ if [[ ! -f "$src" ]]; then
   echo "Log file not found: $src"
   exit 1
 fi
+mkdir -p "$archive_dir" || { echo "Failed to create archive directory"; exit 1; }
 
+echo "Archiving $file..."
