@@ -27,3 +27,7 @@ fi
 mkdir -p "$archive_dir" || { echo "Failed to create archive directory"; exit 1; }
 
 echo "Archiving $file..."
+
+mv "$src" "$archive_dir/$archive_name" &&
+touch "$src"
+echo "Successfully archived to $archive_dir/$archive_name"
