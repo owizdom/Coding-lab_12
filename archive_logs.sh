@@ -20,8 +20,6 @@ esac
 src="$LOG_DIR/$file"
 archive_name="${file%.*}_$timestamp.log"
 
-#Germain
-
 if [[ ! -f "$src" ]]; then
   echo "Log file not found: $src"
   exit 1
