@@ -9,7 +9,21 @@ echo "2) Temperature (temperature.log)"
 echo "3) Water Usage (water_usage.log)"
 read -p "Enter choice (1-3): " choice
 
-#DIVIN ADD YOUR CODE UNDER THIS COMMENT
+case "$choice" in
+  1)
+    file="heart_rate.log"
+    ;;
+  2)
+    file="temperature.log"
+    ;;
+  3)
+    file="water_usage.log"
+    ;;
+  *)
+    echo "Invalid choice"
+    exit 1
+    ;;
+esac
 
 log_path="$LOG_DIR/$file"
 
