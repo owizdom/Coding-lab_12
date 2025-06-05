@@ -17,4 +17,14 @@ if [[ ! -f "$log_path" ]]; then
 	echo "Log file not found: $log_path"
 	exit 1
 fi
+# nawaf
+first=$(head -n 1 "$log_path" | awk '{print $1}')
+last=$(tail -n 1 "$log_path" | awk '{print $1}')
+echo "First Entry: $first" >> "$REPORT_FILE"
 
+echo "Analyzing $file..."
+echo "Report Generated at: $(date)" >> "$REPORT_FILE"
+echo "Log File: $file" >> "$REPORT_FILE"
+awk '{print $2}' "$log_path" | sort | uniq -c | while read count device; do
+  echo "$device: $count entries" >> "$REPORT_FILE"
+done
